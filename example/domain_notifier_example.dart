@@ -28,12 +28,11 @@ void main() {
   final consumer = dn.RabbitMqEventConsumer(
       connection: connection, exchangeName: exchangeName);
   consumer.consume(
-      suscriber: exampleConsume,
+      subscriber: exampleConsume,
       queueName: 'queue-example',
       domainEvents: ['course.created']);
 
   eventRabbit.publish([domainEvent]);
-  print('ecanm');
 }
 
 void exampleConsume(message) {

@@ -9,7 +9,9 @@ class RabbitMqEventConsumer {
   String exchangeName;
 
   void consume(
-      {Function suscriber, String queueName, List<String> domainEvents}) async {
+      {Function subscriber,
+      String queueName,
+      List<String> domainEvents}) async {
     try {
       // final queue = await connection.queue(queueName);
       final exchange = await connection.exchange(exchangeName);
@@ -18,7 +20,7 @@ class RabbitMqEventConsumer {
       // final consumer = await queue.consume(consumerTag: 'course.created');
       consumer.listen((AmqpMessage message) {
         print('Consuming $queueName');
-        suscriber(message.payloadAsJson);
+        subscriber(message.payloadAsJson);
       });
     } catch (e) {
       print(e.toString());
