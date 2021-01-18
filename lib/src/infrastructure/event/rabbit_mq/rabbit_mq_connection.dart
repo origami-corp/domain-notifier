@@ -47,13 +47,15 @@ class RabbitMqConnection {
 
   Future<ampq.Queue> _setQueue(String name) async {
     final channelInfo = await channel();
-    return await channelInfo.queue(name, durable: true, arguments: {});
+    return await channelInfo.queue(name, durable: false, arguments: {});
   }
 
   Future<ampq.Exchange> _setExchange(name) async {
     final channelInfo = await channel();
-    return await channelInfo.exchange(name, ampq.ExchangeType.TOPIC,
-        durable: true);
+    final exchange = await channelInfo.exchange(name, ampq.ExchangeType.TOPIC,
+        durable: true, arguments: {"": ""});
+
+    return exchange;
   }
 
   // AMPQ.ConnectionSettings _setConnection() {

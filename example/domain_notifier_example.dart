@@ -21,18 +21,21 @@ void main() {
       dn.RabbitMqEvent(connection: connection, exchangeName: exchangeName);
 
   final domainEvent = MyEvent(
-      aggregateId: '12312323',
-      eventId: 'as87da86f7asd98as',
+      aggregateId: '12312323343',
+      eventId: 'as87da86f7asd98aasas',
       occuredOn: DateTime.now().toIso8601String());
 
   final consumer = dn.RabbitMqEventConsumer(
       connection: connection, exchangeName: exchangeName);
-  consumer.consume(exampleConsume, 'queue-example');
+  consumer.consume(
+      suscriber: exampleConsume,
+      queueName: 'queue-example',
+      domainEvents: ['course.created']);
 
   eventRabbit.publish([domainEvent]);
   print('ecanm');
 }
 
-exampleConsume(message) {
+void exampleConsume(message) {
   print(message.toString());
 }
