@@ -38,16 +38,16 @@ class RabbitMqConnection {
     return _exchanges[name];
   }
 
-  Future<ampq.Queue> queue(String name) async {
+  Future<ampq.Queue> queue(String name, {bool durable = false}) async {
     if (_queues[name] == null) {
-      _queues[name] = await _setQueue(name);
+      _queues[name] = await _setQueue(name, durable: durable);
     }
     return _queues[name];
   }
 
-  Future<ampq.Queue> _setQueue(String name) async {
+  Future<ampq.Queue> _setQueue(String name, {bool durable = false}) async {
     final channelInfo = await channel();
-    return await channelInfo.queue(name, durable: false, arguments: {});
+    return await channelInfo.queue(name, durable: durable, arguments: {});
   }
 
   Future<ampq.Exchange> _setExchange(name) async {
