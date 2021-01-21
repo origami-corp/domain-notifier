@@ -6,7 +6,11 @@ import 'package:domain_notifier/src/infrastructure/event/domain_event_json_seria
 import 'package:domain_notifier/src/infrastructure/event/rabbit_mq/rabbit_mq_connection.dart';
 
 class RabbitMqEvent implements Event {
-  RabbitMqEvent({this.connection, this.exchangeName});
+  RabbitMqEvent({this.connection, this.exchangeName}) {
+    connection
+        .exchange(exchangeName)
+        .then((exchange) => print('Exchange validate'));
+  }
 
   RabbitMqConnection connection;
   String exchangeName;
