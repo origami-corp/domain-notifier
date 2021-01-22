@@ -1,12 +1,19 @@
 import 'package:domain_notifier/domain_notifier.dart' as dn;
 
 class MyEvent extends dn.DomainEvent {
-  MyEvent({String aggregateId, String eventId, String occuredOn})
+  String name;
+
+  MyEvent({String aggregateId, String eventId, String occuredOn, this.name})
       : super(aggregateId: aggregateId, eventId: eventId, occuredOn: occuredOn);
 
   @override
   String eventName() {
     return 'course.created';
+  }
+
+  @override
+  Map toPrimitives() {
+    return {'name': name};
   }
 }
 
@@ -20,10 +27,7 @@ void main() {
   final eventRabbit =
       dn.RabbitMqEvent(connection: connection, exchangeName: exchangeName);
 
-  final domainEvent = MyEvent(
-      aggregateId: '12312323343',
-      eventId: 'as87da86f7asd98aasas',
-      occuredOn: DateTime.now().toIso8601String());
+  final domainEvent = MyEvent(aggregateId: '12312323343', name: 'Event name');
 
   final consumer = dn.RabbitMqEventConsumer(
       connection: connection, exchangeName: exchangeName);

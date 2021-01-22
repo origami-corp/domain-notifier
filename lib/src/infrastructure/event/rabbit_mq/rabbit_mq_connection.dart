@@ -53,12 +53,8 @@ class RabbitMqConnection {
   Future<ampq.Exchange> _setExchange(name) async {
     final channelInfo = await channel();
     final exchange = await channelInfo.exchange(name, ampq.ExchangeType.TOPIC,
-        durable: true, arguments: {"": ""});
+        durable: true); // arguments: {"": ""}
 
     return exchange;
   }
-
-  // AMPQ.ConnectionSettings _setConnection() {
-  //   return _connectionSettings;
-  // }
 }

@@ -13,7 +13,7 @@ class RabbitMqEventConsumer {
       String queueName,
       List<String> domainEvents}) async {
     try {
-      final queue = await connection.queue(queueName);
+      // final queue = await connection.queue(queueName);
       final exchange = await connection.exchange(exchangeName);
       final consumer =
           await exchange.bindQueueConsumer(queueName, domainEvents);

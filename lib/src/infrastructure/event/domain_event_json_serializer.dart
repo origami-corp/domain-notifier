@@ -9,7 +9,10 @@ class DomainEventJsonSerializer {
         'id': domainEvent.eventId,
         'type': domainEvent.eventName(),
         'occurred_on': domainEvent.occuredOn,
-        'attributes': {}
+        'attributes': {
+          ...domainEvent.toPrimitives(),
+          'id': domainEvent.aggregateId
+        }
       },
       'meta': []
     });

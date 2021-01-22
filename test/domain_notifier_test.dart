@@ -1,4 +1,3 @@
-import 'package:domain_notifier/domain_notifier.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -12,5 +11,5 @@ void main() {
     // test('First Test', () {
     //   expect(awesome.isAwesome, isTrue);
     // });
-  });
+  }, skip: '');
 }
