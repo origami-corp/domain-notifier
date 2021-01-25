@@ -19,7 +19,7 @@ class RabbitMqEventConsumer {
           await exchange.bindQueueConsumer(queueName, domainEvents);
       consumer.listen((AmqpMessage message) {
         print('Consuming $queueName');
-        subscriber(message.payloadAsJson);
+        subscriber(message);
       });
     } catch (e) {
       print(e.toString());
