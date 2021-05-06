@@ -1,10 +1,12 @@
 import 'package:dart_amqp/dart_amqp.dart' as ampq;
 
 class RabbitMqConfiguration {
-  RabbitMqConfiguration({this.hostname, this.username, this.password});
+  RabbitMqConfiguration(
+      {this.hostname, this.username, this.password, this.port = 5672});
   final String hostname;
   final String username;
   final String password;
+  final int port;
 }
 
 class RabbitMqConnection {
@@ -12,6 +14,7 @@ class RabbitMqConnection {
     _configuration = configuration;
     _connectionSettings ??= ampq.ConnectionSettings(
         host: _configuration.hostname,
+        port: _configuration.port,
         authProvider: ampq.PlainAuthenticator(
             _configuration.username, _configuration.password));
     _connection = ampq.Client(settings: _connectionSettings);
