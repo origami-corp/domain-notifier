@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_amqp/dart_amqp.dart' as ampq;
 
 class RabbitMqConfiguration {
@@ -13,7 +15,10 @@ class RabbitMqConnection {
   RabbitMqConnection({RabbitMqConfiguration configuration}) {
     _configuration = configuration;
     _connectionSettings ??= ampq.ConnectionSettings(
-        host: _configuration.hostname,
+        tlsContext: _configuration.hostname.contains('https://')
+            ? SecurityContext(withTrustedRoots: true)
+            : null, //,
+        host: _configuration.hostname.replaceAll('https://', ''),
         port: _configuration.port,
         authProvider: ampq.PlainAuthenticator(
             _configuration.username, _configuration.password));
