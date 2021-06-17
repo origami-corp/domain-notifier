@@ -9,7 +9,10 @@ class RabbitMqEvent implements Event {
   RabbitMqEvent({this.connection, this.exchangeName}) {
     connection
         .exchange(exchangeName)
-        .then((exchange) => print('Exchange validate'));
+        .then((exchange) => print("Exchange validate ${exchangeName}"))
+        .timeout(const Duration(hours: 1),
+            onTimeout: () =>
+                print('Please check the connection with your Rabbitmq'));
   }
 
   RabbitMqConnection connection;
