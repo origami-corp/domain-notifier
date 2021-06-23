@@ -15,14 +15,26 @@ class RabbitMqEventConsumer {
     try {
       // final queue = await connection.queue(queueName);
       final exchange = await connection.exchange(exchangeName);
-      final consumer =
-          await exchange.bindQueueConsumer(queueName, domainEvents);
+      if ((domainEvents == null || domainEvents.isEmpty)) {
+        throw ArgumentError(
+            "One or more domain events (routing keys) needs to be specified for this exchange ${exchangeName}");
+      }
+
+      Queue queue = await connection.queue(queueName, durable: true);
+
+      for (String routingKey in domainEvents) {
+        await queue.bind(exchange, routingKey);
+      }
+
+      final consumer = await queue.consume();
       consumer.listen((AmqpMessage message) {
         print('Consuming $queueName');
+        print(message.payloadAsString);
         subscriber(message);
       });
     } catch (e) {
       print(e.toString());
+      throw Exception(e);
     }
   }
 }

@@ -17,15 +17,20 @@ class RabbitMqConnection {
     _connectionSettings ??= ampq.ConnectionSettings(
         tlsContext: _configuration.hostname.contains('https://')
             ? SecurityContext(withTrustedRoots: true)
-            : null, //,
+            : null,
         host: _configuration.hostname.replaceAll('https://', ''),
         port: _configuration.port,
         authProvider: ampq.PlainAuthenticator(
-            _configuration.username, _configuration.password));
-    _connection = ampq.Client(settings: _connectionSettings);
+            _configuration.username, _configuration.password),
+        maxConnectionAttempts: 1000,
+        reconnectWaitTime: const Duration(milliseconds: 3000));
+    connection = ampq.Client(settings: _connectionSettings);
+    print(_connectionSettings.reconnectWaitTime);
+
+    //connection.errorListener(errorListener);
   }
 
-  ampq.Client _connection;
+  ampq.Client connection;
   ampq.Channel _channel;
 
   ampq.ConnectionSettings _connectionSettings;
@@ -35,7 +40,7 @@ class RabbitMqConnection {
   RabbitMqConfiguration _configuration;
 
   Future<ampq.Channel> channel() async {
-    _channel ??= await _connection.channel();
+    _channel ??= await connection.channel();
     return _channel;
   }
 
