@@ -17,12 +17,12 @@ class RabbitMqEventConsumer {
       final exchange = await connection.exchange(exchangeName);
       if ((domainEvents == null || domainEvents.isEmpty)) {
         throw ArgumentError(
-            "One or more domain events (routing keys) needs to be specified for this exchange ${exchangeName}");
+            'One or more domain events (routing keys) needs to be specified for this exchange ${exchangeName}');
       }
 
-      Queue queue = await connection.queue(queueName, durable: true);
+      final queue = await connection.queue(queueName, durable: true);
 
-      for (String routingKey in domainEvents) {
+      for (final routingKey in domainEvents) {
         await queue.bind(exchange, routingKey);
       }
 
