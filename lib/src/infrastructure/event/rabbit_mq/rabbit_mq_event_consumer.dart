@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dart_amqp/dart_amqp.dart';
 
 import './rabbit_mq_connection.dart';
@@ -11,7 +13,8 @@ class RabbitMqEventConsumer {
   void consume(
       {Function subscriber,
       String queueName,
-      List<String> domainEvents}) async {
+      List<String> domainEvents,
+      StreamController<AmqpMessage> controller}) async {
     try {
       // final queue = await connection.queue(queueName);
       final exchange = await connection.exchange(exchangeName);
@@ -30,7 +33,12 @@ class RabbitMqEventConsumer {
       consumer.listen((AmqpMessage message) {
         print('Consuming $queueName');
         print(message.payloadAsString);
-        subscriber(message);
+        if (controller != null) {
+          controller.add(message);
+        }
+        if (subscriber != null) {
+          subscriber(message);
+        }
       });
     } catch (e) {
       print(e.toString());
