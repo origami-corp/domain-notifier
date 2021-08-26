@@ -8,10 +8,13 @@ import 'package:domain_notifier/src/infrastructure/event/domain_event_json_seria
 import 'package:domain_notifier/src/infrastructure/event/rabbit_mq/rabbit_mq_connection.dart';
 
 class RabbitMqEvent implements Event {
-  RabbitMqEvent({this.connection, this.exchangeName, this.onError = print}) {
+  RabbitMqEvent(
+      {required this.connection,
+      required this.exchangeName,
+      this.onError = print}) {
     connection
         .exchange(exchangeName)
-        .then((exchange) => print('Exchange validate ${exchangeName}'))
+        .then((exchange) => print('Exchange validate $exchangeName'))
         .timeout(const Duration(hours: 1),
             onTimeout: () =>
                 print('Please check the connection with your Rabbitmq'))
@@ -47,7 +50,7 @@ class RabbitMqEvent implements Event {
       print(body);
       print('------');
 
-      exchange.publish(body, routingKey,
+      exchange!.publish(body, routingKey,
           properties: MessageProperties()
             ..corellationId = event.aggregateId
             ..persistent = true

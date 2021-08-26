@@ -6,7 +6,11 @@ import 'package:domain_notifier/domain_notifier.dart' as dn;
 class MyEvent extends dn.DomainEvent {
   String name;
 
-  MyEvent({String aggregateId, String eventId, String occuredOn, this.name})
+  MyEvent(
+      {required String aggregateId,
+      String? eventId,
+      String? occuredOn,
+      required this.name})
       : super(aggregateId: aggregateId, eventId: eventId, occuredOn: occuredOn);
 
   @override

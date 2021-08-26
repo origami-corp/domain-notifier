@@ -1,7 +1,7 @@
 import 'package:domain_notifier/src/domain/value_object/uuid.dart';
 
 abstract class DomainEvent {
-  DomainEvent({this.aggregateId, String eventId, String occuredOn})
+  DomainEvent({required this.aggregateId, String? eventId, String? occuredOn})
       : assert(aggregateId != '') {
     // ignore: prefer_if_null_operators
     _eventId = eventId != null ? eventId : Uuid.random();
@@ -10,8 +10,8 @@ abstract class DomainEvent {
   }
 
   final String aggregateId;
-  String _eventId;
-  String _occuredOn;
+  late String _eventId;
+  late String _occuredOn;
 
   String get eventId => _eventId;
   String get occuredOn => _occuredOn;
