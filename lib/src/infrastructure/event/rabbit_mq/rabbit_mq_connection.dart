@@ -34,7 +34,7 @@ class RabbitMqConnection {
   }
 
   late ampq.Client connection;
-  late ampq.Channel? _channel;
+  ampq.Channel? _channel;
 
   late ampq.ConnectionSettings _connectionSettings;
 
