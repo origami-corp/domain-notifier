@@ -16,6 +16,6 @@ abstract class DomainEvent {
   String get eventId => _eventId;
   String get occuredOn => _occuredOn;
 
-  String eventName({String? name});
+  String eventName();
   Map toPrimitives();
 }
